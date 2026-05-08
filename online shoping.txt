@@ -1,0 +1,54 @@
+CREATE DATABASE online_shopping_db;
+USE online_shopping_db;
+
+CREATE TABLE Customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(15)
+);
+
+CREATE TABLE Products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(100) NOT NULL,
+    price DECIMAL(10,2) CHECK (price > 0),
+    stock INT
+);
+
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    product_id INT,
+    quantity INT NOT NULL,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+INSERT INTO Customers VALUES
+(1, 'Amit', 'amit@gmail.com', '9876543210'),
+(2, 'Sneha', 'sneha@gmail.com', '9876543211'),
+(3, 'Rahul', 'rahul@gmail.com', '9876543212'),
+(4, 'Pooja', 'pooja@gmail.com', '9876543213'),
+(5, 'Kiran', 'kiran@gmail.com', '9876543214');
+
+INSERT INTO Products VALUES
+(101, 'Laptop', 55000.00, 10),
+(102, 'Mobile', 20000.00, 25),
+(103, 'Headphones', 1500.00, 50),
+(104, 'Keyboard', 800.00, 40),
+(105, 'Mouse', 500.00, 60);
+
+INSERT INTO Orders VALUES
+(1, 1, 101, 1, '2026-02-01'),
+(2, 2, 102, 2, '2026-02-03'),
+(3, 3, 103, 1, '2026-02-05'),
+(4, 4, 104, 3, '2026-02-07'),
+(5, 5, 105, 2, '2026-02-10');
+
+ALTER TABLE Products
+ADD discount DECIMAL(5,2);
+
+RENAME TABLE Products TO Product_Details;
+
+DROP TABLE Product_Details;

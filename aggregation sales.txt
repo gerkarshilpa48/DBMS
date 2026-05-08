@@ -1,0 +1,32 @@
+CREATE TABLE Sales (
+    product_id INT,
+    amount DECIMAL(10,2),
+    region VARCHAR(50)
+);
+
+INSERT INTO Sales VALUES
+(101, 2000, 'North'),
+(102, 3000, 'South'),
+(103, 4000, 'East'),
+(104, 2500, 'North'),
+(105, 3500, 'South'),
+(106, 1500, 'East'),
+(107, 5000, 'West'),
+(108, 2000, 'West');
+
+
+SELECT region, SUM(amount) AS total_sales
+FROM Sales
+GROUP BY region;
+
+SELECT AVG(amount) AS avg_sales
+FROM Sales;
+
+SELECT region, AVG(amount) AS avg_sales
+FROM Sales
+GROUP BY region;
+
+SELECT region, SUM(amount) AS total_sales
+FROM Sales
+GROUP BY region
+HAVING SUM(amount) > 5000;

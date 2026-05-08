@@ -1,0 +1,47 @@
+CREATE TABLE Marks (
+    student_id INT,
+    student_name VARCHAR(100),
+    subject VARCHAR(50),
+    marks INT
+);
+
+INSERT INTO Marks VALUES
+(1, 'Amit', 'Math', 85),
+(2, 'Sneha', 'Math', 72),
+(3, 'Rahul', 'Science', 91),
+(4, 'Pooja', 'Science', 67),
+(5, 'Kiran', 'English', 74),
+(6, 'Neha', 'English', 81),
+(7, 'Rohit', 'Math', 65),
+(8, 'Anjali', 'Science', 88);
+
+
+SELECT 
+    MAX(marks) AS highest_marks,
+    MIN(marks) AS lowest_marks,
+    AVG(marks) AS average_marks
+FROM Marks;
+
+SELECT 
+    subject,
+    MAX(marks) AS highest_marks,
+    MIN(marks) AS lowest_marks,
+    AVG(marks) AS average_marks
+FROM Marks
+GROUP BY subject;
+
+
+SELECT 
+    subject,
+    COUNT(student_id) AS total_students
+FROM Marks
+GROUP BY subject;
+
+
+SELECT 
+    subject,
+    AVG(marks) AS average_marks
+FROM Marks
+GROUP BY subject
+HAVING AVG(marks) > 70;
+

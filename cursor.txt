@@ -1,0 +1,63 @@
+CREATE TABLE Employee (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    salary DECIMAL(10,2)
+);
+
+
+INSERT INTO Employee VALUES
+(1, 'Amit', 25000),
+(2, 'Sneha', 30000),
+(3, 'Rahul', 28000),
+(4, 'Pooja', 32000),
+(5, 'Kiran', 27000);
+
+SELECT * FROM Employee;
+
+DELIMITER //
+
+CREATE PROCEDURE IncreaseSalary()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE emp_id INT;
+
+    -- Cursor declaration
+    DECLARE emp_cursor CURSOR FOR
+        SELECT id FROM Employee;
+
+    -- Handler for end of cursor
+    DECLARE CONTINUE HANDLER FOR NOT FOUND
+        SET done = TRUE;
+
+    OPEN emp_cursor;
+
+    read_loop: LOOP
+
+        FETCH emp_cursor INTO emp_id;
+
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+
+        -- Increase salary by 1000
+        UPDATE Employee
+        SET salary = salary + 1000
+        WHERE id = emp_id;
+
+    END LOOP;
+
+    CLOSE emp_cursor;
+
+END;
+//
+
+DELIMITER ;
+
+CALL IncreaseSalary();
+
+
+SELECT * FROM Employee;
+
+
+
+

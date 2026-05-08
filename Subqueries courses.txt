@@ -1,0 +1,54 @@
+REATE TABLE Courses (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Students (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(100) NOT NULL,
+    course_id INT,
+    marks INT,
+    FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+);
+
+
+INSERT INTO Courses VALUES
+(1, 'Computer Engineering'),
+(2, 'Mechanical'),
+(3, 'Civil'),
+(4, 'Electrical'),
+(5, 'Information Technology');
+
+INSERT INTO Students VALUES
+(101, 'Amit', 1, 85),
+(102, 'Sneha', 2, 78),
+(103, 'Rahul', 1, 92),
+(104, 'Pooja', 3, 70),
+(105, 'Kiran', 4, 65),
+(106, 'Neha', 1, 88),
+(107, 'Rohit', 5, 75),
+(108, 'Anjali', 2, 80);
+
+
+SELECT student_name, marks
+FROM Students
+WHERE course_id = (
+    SELECT course_id
+    FROM Courses
+    WHERE course_name = 'Computer Engineering'
+);
+SELECT student_name, marks
+FROM Students
+WHERE marks > (
+    SELECT AVG(marks)
+    FROM Students
+);
+
+SELECT student_name, course_id
+FROM Students
+WHERE course_id = (
+    SELECT course_id
+    FROM Students
+    WHERE student_name = 'Amit'
+);
+

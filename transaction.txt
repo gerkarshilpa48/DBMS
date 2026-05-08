@@ -1,0 +1,43 @@
+CREATE TABLE Accounts (
+    account_id INT PRIMARY KEY,
+    holder_name VARCHAR(100) NOT NULL,
+    balance DECIMAL(12,2) CHECK (balance >= 0)
+);
+
+INSERT INTO Accounts VALUES
+(101, 'Amit', 50000),
+(102, 'Sneha', 30000),
+(103, 'Rahul', 40000);
+
+START TRANSACTION;
+
+-- Step 1: Deduct from sender
+UPDATE Accounts
+SET balance = balance - 5000
+WHERE account_id = 101;
+
+-- Savepoint after deduction
+SAVEPOINT after_deduction;
+
+-- Step 2: Add to receiver
+UPDATE Accounts
+SET balance = balance + 5000
+WHERE account_id = 102;
+
+-- If any issue occurs:
+-- ROLLBACK TO after_deduction;
+
+-- If everything is fine:
+COMMIT;
+
+START TRANSACTION;
+
+UPDATE Accounts SET balance = balance - 10000 WHERE account_id = 101;
+UPDATE Accounts SET balance = balance + 10000 WHERE account_id = 102;
+
+-- Cancel full transaction
+ROLLBACK;
+
+GRANT SELECT ON Accounts TO 'user1'@'localhost';
+
+REVOKE UPDATE ON Accounts FROM 'user1'@'localhost';
